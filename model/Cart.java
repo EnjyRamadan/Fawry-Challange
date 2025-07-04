@@ -3,7 +3,9 @@ package model;
 import interfaces.Shippable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Cart {
@@ -35,4 +37,18 @@ public class Cart {
                 .map(p -> (Shippable) p)
                 .collect(Collectors.toList());
     }
+    // Add this to Cart.java
+public Map<Shippable, Integer> getShippableItemsWithQuantities() {
+    Map<Shippable, Integer> shippableItems = new HashMap<>();
+
+    for (CartItem item : items) {
+        if (item.product instanceof Shippable) {
+            Shippable shippable = (Shippable) item.product;
+            shippableItems.put(shippable,
+                shippableItems.getOrDefault(shippable, 0) + item.quantity);
+        }
+    }
+    return shippableItems;
+}
+
 }

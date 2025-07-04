@@ -1,9 +1,11 @@
+// === File: service/Checkout.java ===
 package service;
 
 import model.*;
 import user.Customer;
-
+import interfaces.Shippable;
 import java.util.List;
+import java.util.Map;
 
 public class Checkout {
     public static void process(Customer customer, Cart cart, ShippingService shippingService) {
@@ -12,9 +14,9 @@ public class Checkout {
         }
 
         List<CartItem> items = cart.getItems();
-        List<interfaces.Shippable> shippables = cart.getShippables();
+        Map<Shippable, Integer> shippablesWithQty = cart.getShippableItemsWithQuantities();
         double subtotal = cart.getSubtotal();
-        double shipping = shippingService.calculateShippingFee(shippables);
+        double shipping = shippingService.calculateShippingFee(shippablesWithQty);
         double total = subtotal + shipping;
 
         if (!customer.canPay(total)) {
@@ -27,8 +29,8 @@ public class Checkout {
         }
 
         // Shipping
-        if (!shippables.isEmpty()) {
-            shippingService.ship(shippables);
+        if (!shippablesWithQty.isEmpty()) {
+            shippingService.ship(shippablesWithQty);
         }
 
         // Payment
