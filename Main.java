@@ -9,12 +9,6 @@ import service.Checkout;
 import service.ShippingService;
 import user.Customer;
 
-import model.*;
-import service.*;
-import user.Customer;
-
-import java.time.LocalDate;
-
 public class Main {
     public static void main(String[] args) {
         System.out.println("=== Test Case 1: Successful Checkout ===");
